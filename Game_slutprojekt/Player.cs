@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Game_slutprojekt
     class Player:Gubbe
     {
         //Skapar en konstruktor som visar specifikt vad som händer i just denna klass
-        public Player()
+        public Player(Texture2D texture): base(texture)
         {
             speed = 3;
             hp = 3;

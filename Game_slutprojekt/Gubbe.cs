@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,11 @@ namespace Game_slutprojekt
         protected int hp;
         protected float speed;
 
+        //För att kunna rita ut gubben, måste texture ritas ut
+        public Gubbe(Texture2D texture): base(texture)
+        {
+
+        }
 
         public Rectangle HitBox
         {

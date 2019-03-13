@@ -45,6 +45,7 @@
     <Compile Include="Fiende.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Gubbe.cs" />
+    <Compile Include="moving.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

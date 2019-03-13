@@ -14,6 +14,11 @@ namespace Game_slutprojekt
         protected Vector2 pos;
         protected Texture2D tex;
 
+        public Bas(Texture2D texture)
+        {
+            tex = texture;
+        }
+
         public virtual void Update()
         {
 

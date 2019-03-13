@@ -9,6 +9,7 @@ namespace Game_slutprojekt
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Texture2D spelareTex;
+        private Texture2D fiendeTex;
         private Player player;
         private Fiende enemy;
 
@@ -29,8 +30,8 @@ namespace Game_slutprojekt
             
             //För att skapa något använder jag initialize för att först skapa spelare, fiende osv för att sedan lägga kunna skriva ut dem i Draw
             base.Initialize();
-            player = new Player();
-            enemy = new Fiende();
+            player = new Player(spelareTex);
+            enemy = new Fiende(fiendeTex);
         }
 
         /// <summary>
@@ -43,6 +44,7 @@ namespace Game_slutprojekt
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //Istället för o skapa en ny klass kan jag använda denna mening.
             spelareTex = Content.Load<Texture2D>("Sans");
+            fiendeTex = Content.Load<Texture2D>("Sans2");
 
             // TODO: use this.Content to load your game content here
         }
@@ -79,7 +81,10 @@ namespace Game_slutprojekt
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+            player.Draw(spriteBatch);
 
+            spriteBatch.End();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
