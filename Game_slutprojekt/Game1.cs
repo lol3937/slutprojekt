@@ -4,13 +4,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Game_slutprojekt
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private Texture2D spelareTex;
+        private Player player;
+        private Fiende enemy;
 
         public Game1()
         {
@@ -26,10 +26,11 @@ namespace Game_slutprojekt
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
-            base.Initialize();
             
+            //För att skapa något använder jag initialize för att först skapa spelare, fiende osv för att sedan lägga kunna skriva ut dem i Draw
+            base.Initialize();
+            player = new Player();
+            enemy = new Fiende();
         }
 
         /// <summary>
@@ -40,6 +41,8 @@ namespace Game_slutprojekt
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            //Istället för o skapa en ny klass kan jag använda denna mening.
+            spelareTex = Content.Load<Texture2D>("Sans");
 
             // TODO: use this.Content to load your game content here
         }
@@ -64,7 +67,8 @@ namespace Game_slutprojekt
                 Exit();
 
             // TODO: Add your update logic here
-
+            player.Update();
+            enemy.Update();
             base.Update(gameTime);
         }
 

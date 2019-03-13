@@ -12,7 +12,7 @@ namespace Game_slutprojekt
         //Egenskaperna som både fiende och spelare ska ha
         protected Rectangle hitbox;
         protected int hp;
-        protected double speed;
+        protected float speed;
 
 
         public Rectangle HitBox
@@ -27,7 +27,7 @@ namespace Game_slutprojekt
             set { hp = value; }
         }
 
-        public double Speed
+        public float Speed
         {
             get { return speed; }
             set { speed = value; }

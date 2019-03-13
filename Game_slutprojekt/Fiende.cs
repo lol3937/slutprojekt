@@ -9,6 +9,10 @@ namespace Game_slutprojekt
 {
     class Fiende:Gubbe
     {
-       
+       public Fiende()
+        {
+            speed = 6;
+            hp = 1;
+        }
     }
 }
