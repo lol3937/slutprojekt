@@ -29,6 +29,7 @@ namespace Game_slutprojekt
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            
         }
 
         /// <summary>
