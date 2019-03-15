@@ -12,6 +12,7 @@ namespace Game_slutprojekt
         private Texture2D fiendeTex;
         private Player player;
         private Fiende enemy;
+        private moving animatedSprite;
 
         public Game1()
         {
@@ -45,6 +46,9 @@ namespace Game_slutprojekt
             //Istället för o skapa en ny klass kan jag använda denna mening.
             spelareTex = Content.Load<Texture2D>("Sans");
             fiendeTex = Content.Load<Texture2D>("Sans2");
+            //För att kunna ladda in och skapa animationen
+            Texture2D texture = Content.Load<Texture2D>("Sans");
+            animatedSprite = new moving(texture, 2, 3);
 
             // TODO: use this.Content to load your game content here
         }
@@ -71,6 +75,7 @@ namespace Game_slutprojekt
             // TODO: Add your update logic here
             player.Update();
             enemy.Update();
+            animatedSprite.Update();
             base.Update(gameTime);
         }
 
@@ -82,7 +87,8 @@ namespace Game_slutprojekt
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            player.Draw(spriteBatch);
+            //player.Draw(spriteBatch);
+            animatedSprite.Draw(spriteBatch, new Vector2(40, 20));
 
             spriteBatch.End();
             // TODO: Add your drawing code here
