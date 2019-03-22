@@ -43,12 +43,14 @@ namespace Game_slutprojekt
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
             //Istället för o skapa en ny klass kan jag använda denna mening.
             spelareTex = Content.Load<Texture2D>("Sans");
             fiendeTex = Content.Load<Texture2D>("Sans2");
-            //För att kunna ladda in och skapa animationen
+
+            //För att kunna ladda in och skapa animationen. 8 visar hur många rader vågrätt och 3 visar hur många rader lodrätt
             Texture2D texture = Content.Load<Texture2D>("Sans");
-            animatedSprite = new moving(texture, 2, 3);
+            animatedSprite = new moving(texture, 3, 8);
 
             // TODO: use this.Content to load your game content here
         }
@@ -87,6 +89,7 @@ namespace Game_slutprojekt
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+
             //player.Draw(spriteBatch);
             animatedSprite.Draw(spriteBatch, new Vector2(40, 20));
 
