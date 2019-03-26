@@ -52,6 +52,7 @@ namespace Game_slutprojekt
             Texture2D texture = Content.Load<Texture2D>("Sans");
             animatedSprite = new moving(texture, 3, 8);
 
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -79,6 +80,7 @@ namespace Game_slutprojekt
             enemy.Update();
             animatedSprite.Update();
             base.Update(gameTime);
+            
         }
 
         /// <summary>
@@ -90,8 +92,7 @@ namespace Game_slutprojekt
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            //player.Draw(spriteBatch);
-            animatedSprite.Draw(spriteBatch, new Vector2(40, 20));
+            player.Draw(spriteBatch);
 
             spriteBatch.End();
             // TODO: Add your drawing code here

@@ -14,6 +14,7 @@ namespace Game_slutprojekt
 
         //Skapar 2 "håll" X och Y där starthastigeten och sluthastigheten när jag inte trycker in angiven tangent är 0
         private Vector2 velocity = new Vector2(0);
+        private moving moving;
 
         //Skapar en konstruktor som visar specifikt vad som händer i just denna klass
         public Player(Texture2D texture): base(texture)
@@ -21,6 +22,8 @@ namespace Game_slutprojekt
             
             speed = 3;
             hp = 3;
+            //skapar en classvariabel av moving för att tangent ska kopplas ihop med spelaren 
+            moving = new moving(texture, 3, 8);
         }
 
 
@@ -29,31 +32,43 @@ namespace Game_slutprojekt
         /// </summary>
         public override void Update()
         {
-            
+            velocity = Vector2.Zero;
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                velocity.Y = -10;
+                velocity.Y = 2;
+                moving.Update();
+                
+                
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                velocity.Y = 10;
+                velocity.Y = -2;
+                moving.Update();
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 velocity.X = -2;
+                moving.Update();
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 velocity.X = 2;
+                moving.Update();
             }
 
             pos += velocity;
 
-            //skapar en classvariabel av moving för att tangent ska kopplas ihop med spelaren
-            class moving 
+            
+
+        }
+
+        //Ritar ut på nytt
+        public override void Draw (SpriteBatch spriteBatch)
+        {
+            moving.Draw(spriteBatch, pos);
         }
     }
 }
