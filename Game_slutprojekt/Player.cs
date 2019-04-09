@@ -37,8 +37,6 @@ namespace Game_slutprojekt
             {
                 velocity.Y = 2;
                 moving.Update();
-                
-                
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.W))

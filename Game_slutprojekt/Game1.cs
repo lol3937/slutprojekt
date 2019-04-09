@@ -4,6 +4,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Game_slutprojekt
 {
+    public enum Menu
+    {
+        Start,
+        Option,
+        Game,
+        End
+    }
+
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -13,6 +21,8 @@ namespace Game_slutprojekt
         private Player player;
         private Fiende enemy;
         private moving animatedSprite;
+        private Menu Menu = Menu.Start;
+        private GameTime gametime = 0;
 
         public Game1()
         {
@@ -74,13 +84,34 @@ namespace Game_slutprojekt
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            /// <summary>
+            /// Menyerna uppdateras. Om meny är start så uppdateras start. Om man därefter trycker ner enter så ska spelet börja starta. Om meny inte är start så är meny något annat. exempel game
+            /// </summary>
+            if (Menu == Menu.Start)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                    Menu = Menu.Game;
+            }
+            //´När "Gamemenyn" är igång så uppdateras spelare, animation och fiende 
+            else if (Menu == Menu.Game)
+            {
+                player.Update();
+                enemy.Update();
+                animatedSprite.Update();
+                
+            }
+            else if (Menu == Menu.Option)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.P))
+                    Menu = Menu.Option;
+            }
+            else if (Menu == Menu.End)
+            {
+              
+            }
 
-            // TODO: Add your update logic here
-            player.Update();
-            enemy.Update();
-            animatedSprite.Update();
             base.Update(gameTime);
-            
+             // TODO: Add your update logic here
         }
 
         /// <summary>
@@ -89,6 +120,8 @@ namespace Game_slutprojekt
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
