@@ -14,6 +14,18 @@ namespace Game_slutprojekt
         {
             speed = 6;
             hp = 1;
+            Random rand = new Random();
+            int sida = rand.Next(0, 4);
+            if (sida == 0)
+            {
+                pos.X = rand.Next(-100, -20);
+                pos.Y = rand.Next(0, 400);
+            }
+            else if()
+            {
+
+            }
+
         }
     }
 }

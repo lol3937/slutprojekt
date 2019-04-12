@@ -18,16 +18,18 @@ namespace Game_slutprojekt
         public int Columns { get; set; }
         private int currentFrame;
         private int totalFrames;
+        private float scale;
 
 
         //Konstruktor som vill att användaren get en textur som blir utritad i columer
-        public moving(Texture2D texture, int rows, int columns)
+        public moving(Texture2D texture, int rows, int columns, float scale)
         {
             Texture = texture;
             Rows = rows;
             Columns = columns;
             currentFrame = 0;
             totalFrames = Rows * Columns;
+            this.scale = scale;
         }
 
         //Här går vi från bild 1 till 2 till 3 osv
@@ -47,7 +49,7 @@ namespace Game_slutprojekt
 
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             //Rectangle destination = det som kommer ritas ut på skärmen.
-            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
+            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, (int)((float)width*scale), (int)((float)height * scale));
 
             spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
 

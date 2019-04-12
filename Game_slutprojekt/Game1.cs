@@ -21,13 +21,16 @@ namespace Game_slutprojekt
         private Player player;
         private Fiende enemy;
         private moving animatedSprite;
-        private Menu Menu = Menu.Start;
-        private GameTime gametime = 0;
+        private Menu menu = Menu.Start;
+        private Rectangle knapp = new Rectangle(30, 50, 50, 50);
+        private Texture2D menu1;
+        //private GameTime gametime = 0;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -57,10 +60,12 @@ namespace Game_slutprojekt
             //Istället för o skapa en ny klass kan jag använda denna mening.
             spelareTex = Content.Load<Texture2D>("Sans");
             fiendeTex = Content.Load<Texture2D>("Sans2");
+            menu1 = Content.Load<Texture2D>("menu1");
 
-            //För att kunna ladda in och skapa animationen. 8 visar hur många rader vågrätt och 3 visar hur många rader lodrätt
+            //För att kunna ladda in och skapa animationen. 8 visar hur många rader vågrätt och 3 visar hur många rader lodrätt (delar även bilden)
             Texture2D texture = Content.Load<Texture2D>("Sans");
-            animatedSprite = new moving(texture, 3, 8);
+            //Texture2D texture = Content.Load<Texture2D>("Sans2");
+            animatedSprite = new moving(texture, 3, 8,.3f);
 
 
             // TODO: use this.Content to load your game content here
@@ -87,25 +92,29 @@ namespace Game_slutprojekt
             /// <summary>
             /// Menyerna uppdateras. Om meny är start så uppdateras start. Om man därefter trycker ner enter så ska spelet börja starta. Om meny inte är start så är meny något annat. exempel game
             /// </summary>
-            if (Menu == Menu.Start)
+            if (menu == Menu.Start)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-                    Menu = Menu.Game;
+                    menu = Menu.Game;
+                else if(Mouse.GetState().LeftButton == ButtonState.Pressed && knapp.Contains(Mouse.GetState().Position))
+                {
+                    menu = Menu.Game;
+                }
             }
             //´När "Gamemenyn" är igång så uppdateras spelare, animation och fiende 
-            else if (Menu == Menu.Game)
+            else if (menu == Menu.Game)
             {
                 player.Update();
                 enemy.Update();
                 animatedSprite.Update();
                 
             }
-            else if (Menu == Menu.Option)
+            else if (menu == Menu.Option)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.P))
-                    Menu = Menu.Option;
+                    menu = Menu.Option;
             }
-            else if (Menu == Menu.End)
+            else if (menu == Menu.End)
             {
               
             }
@@ -124,8 +133,22 @@ namespace Game_slutprojekt
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+            if (menu == Menu.Start)
+            {
+                spriteBatch.Draw(menu1, knapp, Color.White);
+            }
+            else if (menu == Menu.Game)
+            {
+                player.Draw(spriteBatch);
+            }
+            else if (menu == Menu.Option)
+            {
 
-            player.Draw(spriteBatch);
+            }
+            else if (menu == Menu.End)
+            {
+
+            }
 
             spriteBatch.End();
             // TODO: Add your drawing code here

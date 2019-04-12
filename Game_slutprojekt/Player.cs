@@ -23,7 +23,7 @@ namespace Game_slutprojekt
             speed = 3;
             hp = 3;
             //skapar en classvariabel av moving för att tangent ska kopplas ihop med spelaren 
-            moving = new moving(texture, 3, 8);
+            moving = new moving(texture, 3, 8, 0.3f);
         }
 
 
