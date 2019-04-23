@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Game_slutprojekt
 {
@@ -25,6 +26,7 @@ namespace Game_slutprojekt
         private Rectangle knapp = new Rectangle(30, 50, 50, 50);
         private Texture2D menu1;
         //private GameTime gametime = 0;
+        private List<Fiende> fiendeList;
 
         public Game1()
         {
@@ -45,7 +47,9 @@ namespace Game_slutprojekt
             //För att skapa något använder jag initialize för att först skapa spelare, fiende osv för att sedan lägga kunna skriva ut dem i Draw
             base.Initialize();
             player = new Player(spelareTex);
-            enemy = new Fiende(fiendeTex);
+            enemy = new Fiende(fiendeTex, player);
+            fiendeList = new List<Fiende>();
+            fiendeList.Add(new Fiende(fiendeTex, player));
         }
 
         /// <summary>
@@ -119,6 +123,7 @@ namespace Game_slutprojekt
               
             }
 
+
             base.Update(gameTime);
              // TODO: Add your update logic here
         }
@@ -140,6 +145,10 @@ namespace Game_slutprojekt
             else if (menu == Menu.Game)
             {
                 player.Draw(spriteBatch);
+                foreach(Fiende f in fiendeList)
+                {
+                    f.Draw(spriteBatch);
+                }
             }
             else if (menu == Menu.Option)
             {

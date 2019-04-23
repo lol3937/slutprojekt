@@ -38,5 +38,11 @@ namespace Game_slutprojekt
             get { return speed; }
             set { speed = value; }
         }
+
+        protected void move(int xDif, int yDif)
+        {
+            pos.X += xDif;
+            pos.Y += yDif;
+        }
     }
 }
