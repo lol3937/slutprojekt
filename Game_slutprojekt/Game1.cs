@@ -49,7 +49,7 @@ namespace Game_slutprojekt
             player = new Player(spelareTex);
             enemy = new Fiende(fiendeTex, player);
             fiendeList = new List<Fiende>();
-            fiendeList.Add(new Fiende(fiendeTex, player));
+            fiendeList.Add(enemy);
         }
 
         /// <summary>
@@ -109,7 +109,11 @@ namespace Game_slutprojekt
             else if (menu == Menu.Game)
             {
                 player.Update();
-                enemy.Update();
+                //Går igenom fiendelistan så varje fiende gör samma sak
+                foreach (Fiende f in fiendeList)
+                {
+                    f.Update();
+                }
                 animatedSprite.Update();
                 
             }

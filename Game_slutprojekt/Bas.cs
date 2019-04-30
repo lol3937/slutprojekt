@@ -13,6 +13,7 @@ namespace Game_slutprojekt
         
         protected Vector2 pos;
         protected Texture2D tex;
+        protected Rectangle Hitbox;
 
         public Bas(Texture2D texture)
         {
