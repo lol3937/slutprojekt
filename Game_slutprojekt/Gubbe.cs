@@ -27,7 +27,7 @@ namespace Game_slutprojekt
             set { hitbox = value; }
         }
 
-        public int HP
+        public int HP //använder inte denna för tillfället
         {
             get { return hp; }
             set { hp = value; }

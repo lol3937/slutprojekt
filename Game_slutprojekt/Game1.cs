@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Game_slutprojekt
 {
@@ -9,8 +10,7 @@ namespace Game_slutprojekt
     {
         Start,
         Option,
-        Game,
-        End
+        Game
     }
 
     public class Game1 : Game
@@ -23,10 +23,13 @@ namespace Game_slutprojekt
         private Fiende enemy;
         private moving animatedSprite;
         private Menu menu = Menu.Start;
-        private Rectangle knapp = new Rectangle(30, 50, 50, 50);
+        private Rectangle knapp = new Rectangle(30, 50, 70, 90);
+        private Rectangle knapp2 = new Rectangle(110, 50, 70, 90);
         private Texture2D menu1;
-        //private GameTime gametime = 0;
+        private Texture2D menu2;
         private List<Fiende> fiendeList;
+        private Texture2D r;
+        private string File;
 
         public Game1()
         {
@@ -46,10 +49,23 @@ namespace Game_slutprojekt
             
             //För att skapa något använder jag initialize för att först skapa spelare, fiende osv för att sedan lägga kunna skriva ut dem i Draw
             base.Initialize();
-            player = new Player(spelareTex);
+            player = new Player(spelareTex, r);
             enemy = new Fiende(fiendeTex, player);
             fiendeList = new List<Fiende>();
             fiendeList.Add(enemy);
+            //Här lägger jag in en fil som heter File där saker som highscore står i
+            try
+            {
+                StreamReader sr = new StreamReader("File.txt");
+                File = sr.ReadLine();
+                sr.Close();
+            }
+            catch
+            {
+
+            }
+
+      
         }
 
         /// <summary>
@@ -65,10 +81,10 @@ namespace Game_slutprojekt
             spelareTex = Content.Load<Texture2D>("Sans");
             fiendeTex = Content.Load<Texture2D>("Sans2");
             menu1 = Content.Load<Texture2D>("menu1");
-
+            r = Content.Load<Texture2D>("R");
+            menu2 = Content.Load<Texture2D>("menu2");
             //För att kunna ladda in och skapa animationen. 8 visar hur många rader vågrätt och 3 visar hur många rader lodrätt (delar även bilden)
             Texture2D texture = Content.Load<Texture2D>("Sans");
-            //Texture2D texture = Content.Load<Texture2D>("Sans2");
             animatedSprite = new moving(texture, 3, 8,.3f);
 
 
@@ -104,6 +120,8 @@ namespace Game_slutprojekt
                 {
                     menu = Menu.Game;
                 }
+                if (Keyboard.GetState().IsKeyDown(Keys.P))
+                    menu = Menu.Option;
             }
             //´När "Gamemenyn" är igång så uppdateras spelare, animation och fiende 
             else if (menu == Menu.Game)
@@ -122,11 +140,6 @@ namespace Game_slutprojekt
                 if (Keyboard.GetState().IsKeyDown(Keys.P))
                     menu = Menu.Option;
             }
-            else if (menu == Menu.End)
-            {
-              
-            }
-
 
             base.Update(gameTime);
              // TODO: Add your update logic here
@@ -138,13 +151,12 @@ namespace Game_slutprojekt
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-
-
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             if (menu == Menu.Start)
             {
                 spriteBatch.Draw(menu1, knapp, Color.White);
+                spriteBatch.Draw(menu2, knapp2, Color.White);
             }
             else if (menu == Menu.Game)
             {
@@ -156,11 +168,7 @@ namespace Game_slutprojekt
             }
             else if (menu == Menu.Option)
             {
-
-            }
-            else if (menu == Menu.End)
-            {
-
+            
             }
 
             spriteBatch.End();

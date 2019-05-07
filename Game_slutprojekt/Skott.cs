@@ -11,8 +11,9 @@ namespace Game_slutprojekt
 {
     class Skott: Bas
     {
-        private int speed = 4;
+        private int speed = 5;
         Vector2 dir;
+
         public Skott(Texture2D Texture, Vector2 p) : base(Texture)
         {
             pos = p;
@@ -23,7 +24,6 @@ namespace Game_slutprojekt
 
         public override void Update()
         {
-            
             pos += dir * speed;
         }
     }

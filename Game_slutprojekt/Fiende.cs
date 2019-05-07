@@ -14,8 +14,9 @@ namespace Game_slutprojekt
         private moving moving;
         public Fiende(Texture2D texture, Player Spelare): base(texture)
         {
-            speed = 6;
+            speed = 3;
             hp = 1;
+            //Fiende ska kunna spawna på ett random ställe utanför spelområdet och röra sig i riktning mot spelare
             Random rand = new Random();
             moving = new moving(texture, 3, 8, 0.3f);
             int sida = rand.Next(0, 4);
@@ -48,6 +49,8 @@ namespace Game_slutprojekt
 
 
         }
+
+        
 
         public override void Draw(SpriteBatch spriteBatch)
         {
