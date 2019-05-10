@@ -30,6 +30,10 @@ namespace Game_slutprojekt
         private List<Fiende> fiendeList;
         private Texture2D r;
         private string File;
+        private bool hit;
+        private bool träff;
+
+        private bool isPlaying;
 
         public Game1()
         {
@@ -100,11 +104,7 @@ namespace Game_slutprojekt
             // TODO: Unload any non ContentManager content here
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        //Gametime = "speltiden" 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -126,7 +126,7 @@ namespace Game_slutprojekt
             //´När "Gamemenyn" är igång så uppdateras spelare, animation och fiende 
             else if (menu == Menu.Game)
             {
-                player.Update();
+                player.PlayerUpdate(gameTime);
                 //Går igenom fiendelistan så varje fiende gör samma sak
                 foreach (Fiende f in fiendeList)
                 {
@@ -139,6 +139,37 @@ namespace Game_slutprojekt
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.P))
                     menu = Menu.Option;
+            }
+
+
+            // Försökte kopiera en kollision på nätet mellan 2 objekt men något verkar fel
+            if (träff)
+            {
+                spelareTex = fiendeTex;
+            }
+
+            Rectangle playerBox = new Rectangle((int)pos.X, (int)pos.Y,
+                spelareTex.Width, spelareTex.Height);
+            hit = false;
+
+            foreach (var Fiende in fiendeList)
+            {
+                Rectangle fiendeBox = new Rectangle((int)fiendeTex.X, (int)fiendeTex.Y,
+                    fiendeTex.Width, fiendeTex.Height);
+
+                
+                var kollision = Intersection(playerBox, fiendeBox);
+
+                if (kollision.Width > 0 && kollision.Height > 0)
+                {
+                    Rectangle r1 = Normalize(playerBox, kollision);
+                    Rectangle r2 = Normalize(fiendeBox, kollision);
+                    hit = Träff(spelareTex, r1, fiendeTex, r2);
+                    if (hit)
+                    {
+                        isPlaying = false;
+                    }
+                }
             }
 
             base.Update(gameTime);
@@ -176,5 +207,6 @@ namespace Game_slutprojekt
 
             base.Draw(gameTime);
         }
+
     }
 }

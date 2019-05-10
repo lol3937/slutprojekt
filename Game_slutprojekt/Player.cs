@@ -17,11 +17,12 @@ namespace Game_slutprojekt
         private moving moving;
         List<Skott> skottlista = new List<Skott>();
         private Texture2D skottTex;
+        private double reloadT = 0;
+        private GameTime gameTime;
 
         //Skapar en konstruktor som visar specifikt vad som händer i just denna klass
-        public Player(Texture2D texture, Texture2D texSkott): base(texture)
+        public Player(Texture2D texture, Texture2D texSkott) : base(texture)
         {
-            
             speed = 3;
             hp = 3;
             //skapar en classvariabel av moving för att tangent ska kopplas ihop med spelaren 
@@ -33,7 +34,7 @@ namespace Game_slutprojekt
         /// <summary>
         /// Skapar knappar på tangentbodet som visar vad som händer om jag trycker ner exempel W
         /// </summary>
-        public override void Update()
+        public void PlayerUpdate(GameTime gameTime)
         {
             velocity = Vector2.Zero;
             if (Keyboard.GetState().IsKeyDown(Keys.S))
@@ -60,10 +61,14 @@ namespace Game_slutprojekt
                 moving.Update();
             }
 
+            //När vänster musknapp är nertryckt så skjuts skott i en halvsekund åt gången (ett i taget)
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
-                skottlista.Add(new Skott(skottTex, pos));
-               
+                if(reloadT >= 0.5)
+                {
+                    skottlista.Add(new Skott(skottTex, pos));
+                    reloadT = 0;
+                }               
             }
             //kod för att kunna uppdatera lista
             foreach (var Skott in skottlista)
@@ -72,7 +77,7 @@ namespace Game_slutprojekt
             }
 
             pos += velocity;
-
+            reloadT += gameTime.ElapsedGameTime.TotalSeconds;
         }
 
         //Ritar ut på nytt
