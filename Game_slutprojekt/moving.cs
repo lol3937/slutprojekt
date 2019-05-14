@@ -39,7 +39,7 @@ namespace Game_slutprojekt
             if (currentFrame == totalFrames)
                 currentFrame = 0;
         }
-        
+
         public void Draw(SpriteBatch spriteBatch, Vector2 location)
         {
             int width = Texture.Width / Columns;
@@ -49,12 +49,13 @@ namespace Game_slutprojekt
 
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             //Rectangle destination = det som kommer ritas ut på skärmen.
-            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, (int)((float)width*scale), (int)((float)height * scale));
+            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, (int)((float)width * scale), (int)((float)height * scale));
 
             spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
 
         }
 
+        
 
     }
 }

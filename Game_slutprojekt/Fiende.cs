@@ -12,6 +12,8 @@ namespace Game_slutprojekt
     {
         private Player Spelare;
         private moving moving;
+        private bool isDead = false;
+
         public Fiende(Texture2D texture, Player Spelare): base(texture)
         {
             speed = 3;
@@ -57,11 +59,18 @@ namespace Game_slutprojekt
             moving.Draw(spriteBatch, pos);
         }
         //Här fixar jag till det så att fienden ska kunna spawna från olika vinklar och följa efter spelaren beroende på vart spelaren är
+
         public override void Update()
         {
             Vector2 vel = Spelare.Pos - pos;
             vel.Normalize();
             pos += vel * speed;
+        }
+
+        public bool IsDead
+        {
+            get { return isDead; }
+            set { isDead = value; }
         }
     }
 }

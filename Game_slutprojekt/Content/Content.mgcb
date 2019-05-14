@@ -73,3 +73,10 @@
 /processorParam:TextureFormat=Color
 /build:menu2.png
 
+#begin Highscore.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Highscore.spritefont
+

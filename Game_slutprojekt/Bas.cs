@@ -13,7 +13,7 @@ namespace Game_slutprojekt
         
         protected Vector2 pos;
         protected Texture2D tex;
-        protected Rectangle Hitbox;
+        protected Rectangle hitbox;
 
         public Bas(Texture2D texture)
         {
@@ -40,6 +40,11 @@ namespace Game_slutprojekt
         {
             get { return pos; }
             set { pos = value; }
+        }
+
+        public Rectangle Hitbox
+        {
+            get { return hitbox; }
         }
     }
 }

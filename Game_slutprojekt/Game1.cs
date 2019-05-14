@@ -29,11 +29,9 @@ namespace Game_slutprojekt
         private Texture2D menu2;
         private List<Fiende> fiendeList;
         private Texture2D r;
-        private string File;
-        private bool hit;
-        private bool träff;
-
-        private bool isPlaying;
+        private string file;
+        private List<Bas> deadList;
+        private SpriteFont highscore;
 
         public Game1()
         {
@@ -57,11 +55,13 @@ namespace Game_slutprojekt
             enemy = new Fiende(fiendeTex, player);
             fiendeList = new List<Fiende>();
             fiendeList.Add(enemy);
-            //Här lägger jag in en fil som heter File där saker som highscore står i
+            //deadlist är listan där allt som försvinner ifrån spelrådet hamnar i. Dvs skott och fiender ev spelare
+            deadList = new List<Bas>();
+            //Här lägger jag in en fil som heter file där saker som highscore står i
             try
             {
                 StreamReader sr = new StreamReader("File.txt");
-                File = sr.ReadLine();
+                file = sr.ReadLine();
                 sr.Close();
             }
             catch
@@ -87,6 +87,7 @@ namespace Game_slutprojekt
             menu1 = Content.Load<Texture2D>("menu1");
             r = Content.Load<Texture2D>("R");
             menu2 = Content.Load<Texture2D>("menu2");
+            highscore = Content.Load<SpriteFont>("Highscore");
             //För att kunna ladda in och skapa animationen. 8 visar hur många rader vågrätt och 3 visar hur många rader lodrätt (delar även bilden)
             Texture2D texture = Content.Load<Texture2D>("Sans");
             animatedSprite = new moving(texture, 3, 8,.3f);
@@ -141,34 +142,28 @@ namespace Game_slutprojekt
                     menu = Menu.Option;
             }
 
-
-            // Försökte kopiera en kollision på nätet mellan 2 objekt men något verkar fel
-            if (träff)
+            //Skott ska träffa fiende. När skott träffar fiende så ska fiende och skott försvinna. Om spelare träffas av fiende så ska spelare försvinna dvs Game Over
+            foreach(Skott s in player.SkottLista)
             {
-                spelareTex = fiendeTex;
+                foreach(Fiende f in fiendeList)
+                {
+                    if(s.Hitbox.Intersects(f.Hitbox))
+                    {
+                        deadList.Add(f);
+                        deadList.Add(s);
+                    }
+                }
             }
 
-            Rectangle playerBox = new Rectangle((int)pos.X, (int)pos.Y,
-                spelareTex.Width, spelareTex.Height);
-            hit = false;
-
-            foreach (var Fiende in fiendeList)
+            foreach(Bas s in deadList)
             {
-                Rectangle fiendeBox = new Rectangle((int)fiendeTex.X, (int)fiendeTex.Y,
-                    fiendeTex.Width, fiendeTex.Height);
-
-                
-                var kollision = Intersection(playerBox, fiendeBox);
-
-                if (kollision.Width > 0 && kollision.Height > 0)
+                if(s is Skott)
                 {
-                    Rectangle r1 = Normalize(playerBox, kollision);
-                    Rectangle r2 = Normalize(fiendeBox, kollision);
-                    hit = Träff(spelareTex, r1, fiendeTex, r2);
-                    if (hit)
-                    {
-                        isPlaying = false;
-                    }
+                    player.SkottLista.Remove((s as Skott));
+                }
+                else if(s is Fiende)
+                {
+                    fiendeList.Remove((s as Fiende));
                 }
             }
 
@@ -196,6 +191,8 @@ namespace Game_slutprojekt
                 {
                     f.Draw(spriteBatch);
                 }
+
+                spriteBatch.DrawString(highscore, "Highscore: ", new Vector2(700,5), Color.White);
             }
             else if (menu == Menu.Option)
             {

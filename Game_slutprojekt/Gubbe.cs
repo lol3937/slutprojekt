@@ -11,7 +11,6 @@ namespace Game_slutprojekt
     class Gubbe:Bas
     {
         //Egenskaperna som både fiende och spelare ska ha
-        protected Rectangle hitbox;
         protected int hp;
         protected float speed;
 
@@ -19,18 +18,6 @@ namespace Game_slutprojekt
         public Gubbe(Texture2D texture): base(texture)
         {
 
-        }
-
-        public Rectangle HitBox
-        {
-            get { return hitbox; }
-            set { hitbox = value; }
-        }
-
-        public int HP //använder inte denna för tillfället
-        {
-            get { return hp; }
-            set { hp = value; }
         }
 
         public float Speed

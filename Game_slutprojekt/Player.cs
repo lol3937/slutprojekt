@@ -33,23 +33,24 @@ namespace Game_slutprojekt
 
         /// <summary>
         /// Skapar knappar på tangentbodet som visar vad som händer om jag trycker ner exempel W
+        /// För att se till så att spelaren inte kan gå utanför spelområdet så avänder jag mig av && pos.x/y > 0
         /// </summary>
         public void PlayerUpdate(GameTime gameTime)
         {
             velocity = Vector2.Zero;
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            if (Keyboard.GetState().IsKeyDown(Keys.S) && pos.Y <= 4)
             {
                 velocity.Y = 5;
                 moving.Update();
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (Keyboard.GetState().IsKeyDown(Keys.W) && pos.Y > 0)
             {
                 velocity.Y = -5;
                 moving.Update();
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            if (Keyboard.GetState().IsKeyDown(Keys.A) && pos.X > 0)
             {
                 velocity.X = -5;
                 moving.Update();
@@ -89,6 +90,13 @@ namespace Game_slutprojekt
                 Skott.Draw(spriteBatch);
             }
             
+        }
+
+        //För att komma åt skottlista från andra klasser
+        public List<Skott> SkottLista
+        {
+            get { return skottlista; }
+            set { skottlista = value; }
         }
     }
 }
