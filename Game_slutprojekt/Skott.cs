@@ -11,14 +11,14 @@ namespace Game_slutprojekt
 {
     class Skott: Bas
     {
-        private int speed = 5;
+        private int speed = 7;
         Vector2 dir;
         private bool isDead = false;
 
         public Skott(Texture2D Texture, Vector2 p) : base(Texture)
         {
             pos = p;
-            hitbox = new Rectangle(p.ToPoint(),new Point(10,10));
+            hitbox = new Rectangle((int)p.X, (int)p.Y, 15, 15);
             dir = Mouse.GetState().Position.ToVector2() - pos;
             dir.Normalize();
         }
@@ -26,6 +26,7 @@ namespace Game_slutprojekt
         public override void Update()
         {
             pos += dir * speed;
+            hitbox.Location = pos.ToPoint();
         }
 
         public bool IsDead

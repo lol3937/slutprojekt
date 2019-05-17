@@ -16,8 +16,7 @@ namespace Game_slutprojekt
 
         public Fiende(Texture2D texture, Player Spelare): base(texture)
         {
-            speed = 3;
-            hp = 1;
+            speed = 2;
             //Fiende ska kunna spawna på ett random ställe utanför spelområdet och röra sig i riktning mot spelare
             Random rand = new Random();
             moving = new moving(texture, 3, 8, 0.3f);
@@ -32,7 +31,7 @@ namespace Game_slutprojekt
             //Höger
             else if(sida == 1)
             {
-                pos.X = rand.Next(490, 880);
+                pos.X = rand.Next( 880, 980);
                 pos.Y = rand.Next(0, 400);
             }
             //Upp
@@ -47,9 +46,11 @@ namespace Game_slutprojekt
                 pos.X = rand.Next(-20, 800);
                 pos.Y = rand.Next(485, 585);
             }
+
+            //skapar en hitbox så att fienden försvinner när den blir träffad oavsett position
+            hitbox = new Rectangle((int)pos.X, (int)pos.Y, 65, 90);
+
             this.Spelare = Spelare;
-
-
         }
 
         
@@ -58,19 +59,26 @@ namespace Game_slutprojekt
         {
             moving.Draw(spriteBatch, pos);
         }
+        
         //Här fixar jag till det så att fienden ska kunna spawna från olika vinklar och följa efter spelaren beroende på vart spelaren är
-
         public override void Update()
         {
             Vector2 vel = Spelare.Pos - pos;
             vel.Normalize();
             pos += vel * speed;
+            hitbox.Location = pos.ToPoint();
         }
 
         public bool IsDead
         {
             get { return isDead; }
             set { isDead = value; }
+        }
+
+        //för att hitboxen ska existera
+        public Rectangle Hitbox
+        {
+            get { return hitbox; }
         }
     }
 }

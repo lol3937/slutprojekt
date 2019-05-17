@@ -23,11 +23,13 @@ namespace Game_slutprojekt
         //Skapar en konstruktor som visar specifikt vad som händer i just denna klass
         public Player(Texture2D texture, Texture2D texSkott) : base(texture)
         {
-            speed = 3;
-            hp = 3;
+            speed = 4;
             //skapar en classvariabel av moving för att tangent ska kopplas ihop med spelaren 
             moving = new moving(texture, 3, 8, 0.3f);
             skottTex = texSkott;
+
+            //när spelare nuddar fiende så ska spelare försvinna
+            hitbox = new Rectangle((int)pos.X, (int)pos.Y, 65, 90);
         }
 
 
@@ -38,7 +40,7 @@ namespace Game_slutprojekt
         public void PlayerUpdate(GameTime gameTime)
         {
             velocity = Vector2.Zero;
-            if (Keyboard.GetState().IsKeyDown(Keys.S) && pos.Y <= 4)
+            if (Keyboard.GetState().IsKeyDown(Keys.S) && pos.Y <= 480f-90)
             {
                 velocity.Y = 5;
                 moving.Update();
@@ -56,7 +58,7 @@ namespace Game_slutprojekt
                 moving.Update();
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            if (Keyboard.GetState().IsKeyDown(Keys.D) && pos.X <= 800f - 65)
             {
                 velocity.X = 5;
                 moving.Update();
@@ -79,6 +81,7 @@ namespace Game_slutprojekt
 
             pos += velocity;
             reloadT += gameTime.ElapsedGameTime.TotalSeconds;
+            hitbox = new Rectangle((int)pos.X, (int)pos.Y, 65, 90);
         }
 
         //Ritar ut på nytt
@@ -97,6 +100,11 @@ namespace Game_slutprojekt
         {
             get { return skottlista; }
             set { skottlista = value; }
+        }
+
+        public Rectangle Hitbox
+        {
+            get { return hitbox; }
         }
     }
 }

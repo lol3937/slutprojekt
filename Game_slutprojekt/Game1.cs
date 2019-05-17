@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.IO;
+using System;
 
 namespace Game_slutprojekt
 {
@@ -10,7 +11,8 @@ namespace Game_slutprojekt
     {
         Start,
         Option,
-        Game
+        Game,
+        LoserScreen
     }
 
     public class Game1 : Game
@@ -32,6 +34,10 @@ namespace Game_slutprojekt
         private string file;
         private List<Bas> deadList;
         private SpriteFont highscore;
+        private SpriteFont font;
+        private SpriteFont font2;
+        private Random random = new Random();
+        private int poäng = 0;
 
         public Game1()
         {
@@ -88,8 +94,11 @@ namespace Game_slutprojekt
             r = Content.Load<Texture2D>("R");
             menu2 = Content.Load<Texture2D>("menu2");
             highscore = Content.Load<SpriteFont>("Highscore");
+            font = Content.Load<SpriteFont>("Over");
+            font2 = Content.Load<SpriteFont>("About");
             //För att kunna ladda in och skapa animationen. 8 visar hur många rader vågrätt och 3 visar hur många rader lodrätt (delar även bilden)
             Texture2D texture = Content.Load<Texture2D>("Sans");
+
             animatedSprite = new moving(texture, 3, 8,.3f);
 
 
@@ -134,38 +143,79 @@ namespace Game_slutprojekt
                     f.Update();
                 }
                 animatedSprite.Update();
-                
+
+                foreach (Fiende f in fiendeList)
+                {
+                    //Om spelare blir träffad = game over
+                    if (player.Hitbox.Intersects(f.Hitbox))
+                    {
+                        menu = Menu.LoserScreen;
+
+                    }
+                }
+
+                foreach (Skott s in player.SkottLista)
+                {
+                    foreach (Fiende f in fiendeList)
+                    {
+                        if (s.Hitbox.Intersects(f.Hitbox))
+                        {
+                            deadList.Add(f);
+                            deadList.Add(s);
+                            //Poäng ökar efter varje fiende som dör
+                            poäng++;
+
+                        }
+                    }
+                }
+
+                foreach (Bas s in deadList)
+                {
+                    if (s is Skott)
+                    {
+                        player.SkottLista.Remove((s as Skott));
+                    }
+                    else if (s is Fiende)
+                    {
+                        fiendeList.Remove((s as Fiende));
+                       
+                    }
+                }
+                int chans = random.Next(0, 1000);
+                if (chans <= 10)
+                {
+                    fiendeList.Add(new Fiende(fiendeTex, player));
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.B))
+                {
+                    menu = Menu.Start;
+                }
+
             }
             else if (menu == Menu.Option)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.P))
                     menu = Menu.Option;
+                if (Keyboard.GetState().IsKeyDown(Keys.B))
+                {
+                    menu = Menu.Start;
+                }
+
+            }
+            else if (menu == Menu.LoserScreen)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.B))
+                {
+                    menu = Menu.Start;
+                    fiendeList.Clear();
+                    poäng = 0;
+                }
+
             }
 
             //Skott ska träffa fiende. När skott träffar fiende så ska fiende och skott försvinna. Om spelare träffas av fiende så ska spelare försvinna dvs Game Over
-            foreach(Skott s in player.SkottLista)
-            {
-                foreach(Fiende f in fiendeList)
-                {
-                    if(s.Hitbox.Intersects(f.Hitbox))
-                    {
-                        deadList.Add(f);
-                        deadList.Add(s);
-                    }
-                }
-            }
 
-            foreach(Bas s in deadList)
-            {
-                if(s is Skott)
-                {
-                    player.SkottLista.Remove((s as Skott));
-                }
-                else if(s is Fiende)
-                {
-                    fiendeList.Remove((s as Fiende));
-                }
-            }
 
             base.Update(gameTime);
              // TODO: Add your update logic here
@@ -192,17 +242,31 @@ namespace Game_slutprojekt
                     f.Draw(spriteBatch);
                 }
 
-                spriteBatch.DrawString(highscore, "Highscore: ", new Vector2(700,5), Color.White);
+                spriteBatch.DrawString(highscore, "Highscore: "+ poäng.ToString(), new Vector2(700,5), Color.Black);
             }
             else if (menu == Menu.Option)
             {
-            
+                
+                spriteBatch.DrawString(font2, "Skulle vara en option men blev en about istället. \nSpelet är skapat under ett slutprodjekt i Feberuari på Teknikum \nSpelet är ett survivalliknande där du skjuter så många fiender du kan \n Lycka till \n kommandon: röra sig = wsad \n skjuta = vänstemusknapp \n tillbaka till start = b \n start = enter/knappen \n options/about = p", new Vector2(150, 10), Color.Black);
+                
+            }
+            else if(menu == Menu.LoserScreen)
+            {
+                
+                spriteBatch.DrawString(font, "Game Over, Try again", new Vector2(300, 200), Color.DarkRed);
+                
             }
 
+            
             spriteBatch.End();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        public static void YouLose()
+        {
+            
         }
 
     }

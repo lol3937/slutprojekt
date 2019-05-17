@@ -80,3 +80,17 @@
 /processorParam:TextureFormat=Compressed
 /build:Highscore.spritefont
 
+#begin Over.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Over.spritefont
+
+#begin About.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:About.spritefont
+
